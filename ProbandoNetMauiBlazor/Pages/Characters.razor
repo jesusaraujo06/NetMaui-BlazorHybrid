@@ -1,0 +1,34 @@
+﻿@page "/characters"
+
+@using ProbandoNetMauiBlazor.Models;
+@using ProbandoNetMauiBlazor.Services;
+
+@inject IRickAndMortyService service
+
+<h3>Personajes</h3>
+
+@if (_rickAndMorty == null)
+{
+    <MudSkeleton />
+    <MudSkeleton Animation="Animation.False" />
+    <MudSkeleton Animation="Animation.Wave" />
+}
+else
+{
+    foreach (var result in _rickAndMorty.results)
+    {
+        <div>
+            <h4>@result.name</h4>
+            <img src="@result.image">
+        </div>
+    }
+}
+
+@code {
+    private RickAndMorty _rickAndMorty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _rickAndMorty = await service.Get();
+    }
+}
